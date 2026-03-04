@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mudassirmhd.in"),
@@ -10,14 +8,16 @@ export const metadata: Metadata = {
     template: "%s | Mudassir Mohammed",
   },
   description:
-    "Full Stack Engineer building scalable web & mobile systems. Specializing in React, Next.js, TypeScript, Node.js, and React Native.",
+    "Lead Frontend Developer building scalable web & mobile systems. Specializing in React, Next.js, TypeScript, Node.js, Vue, and React Native.",
   keywords: [
+    "Lead Frontend Developer",
     "Full Stack Engineer",
     "React",
     "Next.js",
     "TypeScript",
     "Node.js",
     "React Native",
+    "Vue.js",
     "Portfolio",
     "Mudassir Mohammed",
   ],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Mudassir Mohammed",
     title: "Mudassir Mohammed — Full Stack Engineer",
     description:
-      "Full Stack Engineer building scalable web & mobile systems. Product-minded. Architecture-driven.",
+      "Lead Frontend Developer building scalable web & mobile systems. Product-minded. Architecture-driven.",
   },
   twitter: {
     card: "summary_large_image",
@@ -69,7 +69,7 @@ export default function RootLayout({
               url: "https://mudassirmhd.in",
               jobTitle: "Full Stack Engineer",
               sameAs: [
-                "https://github.com/mudassir-mohammed",
+                "https://github.com/pmudassir",
                 "https://linkedin.com/in/mudassir-mohammed",
                 "https://x.com/mudassirmhd",
               ],
@@ -79,17 +79,20 @@ export default function RootLayout({
                 "TypeScript",
                 "Node.js",
                 "React Native",
+                "Vue.js",
+                "NestJS",
                 "MongoDB",
                 "PostgreSQL",
+                "Docker",
+                "AWS",
+                "GraphQL",
               ],
             }),
           }}
         />
       </head>
       <body className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

@@ -3,8 +3,31 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About Mudassir Mohammed — Full Stack Engineer, founder of Mentrex, building production-grade web and mobile systems.",
+  description: "About Mudassir Mohammed — Lead Frontend Developer at BestDoc Technology, building production-grade web and mobile systems.",
 };
+
+const skills = [
+  {
+    category: "Languages",
+    items: ["C", "Java", "JavaScript", "TypeScript"],
+  },
+  {
+    category: "Frontend",
+    items: ["ReactJS", "Next.js", "React Native", "Redux", "Three.js", "HTML/CSS", "Tailwind", "Bootstrap", "Shadcn"],
+  },
+  {
+    category: "Backend",
+    items: ["Node.js", "NestJS", "Express", "REST API", "GraphQL", "Socket.io"],
+  },
+  {
+    category: "Database",
+    items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Prisma"],
+  },
+  {
+    category: "Cloud & Tools",
+    items: ["AWS", "S3", "Firebase", "Nginx", "Docker", "Kubernetes", "Vercel", "Git", "Jest", "Mocha"],
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -22,21 +45,52 @@ export default function AboutPage() {
       {/* Journey */}
       <section className="mb-16 space-y-6 text-lg text-[var(--color-text-secondary)] leading-relaxed">
         <p>
-          I&apos;m <span className="text-[var(--color-text-primary)] font-medium">Mudassir Mohammed</span> — a Full Stack Engineer 
-          with 2+ years of experience building production-grade web and mobile applications. I don&apos;t just write 
+          I&apos;m <span className="text-[var(--color-text-primary)] font-medium">Mudassir Mohammed</span> — a Lead Frontend Developer 
+          with 3+ years of experience building production-grade web and mobile applications. I don&apos;t just write 
           code; I design systems that solve real problems.
         </p>
         <p>
-          I run <span className="text-[var(--color-primary)] font-medium">Mentrex</span>, a coding institute where 
-          I teach aspiring developers how to build real-world applications — not toy projects. The LMS powering 
-          Mentrex? Built it from scratch. The finance tracker my students use for learning? Built that too.
+          Currently at <span className="text-[var(--color-primary)] font-medium">BestDoc Technology</span>, I lead the
+          frontend development of BestDoc Concierge using Vue, Nuxt, and Vuetify — streamlining request workflows
+          for hospital staff and boosting operational efficiency by 35%. Previously, I engineered cross-platform
+          mobile apps at <span className="text-[var(--color-primary)] font-medium">App Stone</span> using React Native
+          and built full-stack web applications at <span className="text-[var(--color-primary)] font-medium">Eclidse Technologies</span> with the MERN stack.
         </p>
         <p>
-          My stack is intentionally versatile: <span className="text-[var(--color-text-primary)]">React, Next.js, TypeScript</span> on 
-          the frontend. <span className="text-[var(--color-text-primary)]">Node.js, Express, MongoDB, PostgreSQL</span> on 
-          the backend. <span className="text-[var(--color-text-primary)]">React Native (Expo)</span> for mobile. 
-          I pick tools based on the problem, not the trend.
+          My stack is intentionally versatile: <span className="text-[var(--color-text-primary)]">React, Next.js, TypeScript, Vue, Nuxt</span> on 
+          the frontend. <span className="text-[var(--color-text-primary)]">Node.js, NestJS, Express, PostgreSQL, MongoDB</span> on 
+          the backend. <span className="text-[var(--color-text-primary)]">React Native, Docker, AWS, Kubernetes</span> for 
+          mobile and infrastructure. I pick tools based on the problem, not the trend.
         </p>
+      </section>
+
+      {/* Skills Grid */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-8">
+          Technical Skills
+        </h2>
+        <div className="space-y-4">
+          {skills.map((group) => (
+            <div
+              key={group.category}
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5"
+            >
+              <h3 className="text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--color-primary)] mb-3">
+                {group.category}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span
+                    key={item}
+                    className="px-3 py-1.5 text-xs font-mono bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg text-[var(--color-text-secondary)]"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Engineering Philosophy */}

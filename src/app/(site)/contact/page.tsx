@@ -18,11 +18,11 @@ export default function ContactPage() {
     const body = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`
     );
-    window.open(`mailto:mudassir@mudassirmhd.in?subject=${subject}&body=${body}`);
+    window.open(`mailto:pmudassir@gmail.com?subject=${subject}&body=${body}`);
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("mudassir@mudassirmhd.in");
+    navigator.clipboard.writeText("pmudassir@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -110,7 +110,7 @@ export default function ContactPage() {
             Send Inquiry
           </button>
           <a
-            href="mailto:mudassir@mudassirmhd.in"
+            href="mailto:pmudassir@gmail.com"
             className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors"
           >
             Schedule a quick call
@@ -125,7 +125,7 @@ export default function ContactPage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <a
-            href="mailto:mudassir@mudassirmhd.in"
+            href="mailto:pmudassir@gmail.com"
             className="flex items-center gap-3 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)]/30 transition-colors"
           >
             <svg className="size-5 text-[var(--color-primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -145,7 +145,7 @@ export default function ContactPage() {
             <span className="text-sm text-[var(--color-text-secondary)]">LinkedIn</span>
           </a>
           <a
-            href="https://github.com/mudassir-mohammed"
+            href="https://github.com/pmudassir"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)]/30 transition-colors"

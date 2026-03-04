@@ -24,7 +24,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     const body = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`
     );
-    window.open(`mailto:mudassir@mudassirmhd.in?subject=${subject}&body=${body}`);
+    window.open(`mailto:pmudassir@gmail.com?subject=${subject}&body=${body}`);
     onClose();
   };
 
@@ -126,7 +126,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               Send Inquiry
             </button>
             <a
-              href="mailto:mudassir@mudassirmhd.in"
+              href="mailto:pmudassir@gmail.com"
               className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors"
             >
               Schedule a quick call
@@ -137,7 +137,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         <div className="mt-6 pt-4 border-t border-[var(--color-border)] flex justify-end">
           <button
             onClick={() => {
-              navigator.clipboard.writeText("mudassir@mudassirmhd.in");
+              navigator.clipboard.writeText("pmudassir@gmail.com");
             }}
             className="text-[10px] font-mono uppercase tracking-widest text-[var(--color-text-muted)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-1"
           >

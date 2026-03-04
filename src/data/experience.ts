@@ -8,35 +8,34 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
-    period: "2024 — Present",
-    title: "Full Stack Engineer & Founder",
-    company: "Mentrex",
+    period: "Nov 2024 — Present",
+    title: "Lead Frontend Developer",
+    company: "BestDoc Technology",
     current: true,
     description: [
-      "Building and running a coding institute with a custom-built LMS serving 500+ students.",
-      "Architected the entire platform from scratch — student management, course delivery, attendance tracking, and performance analytics.",
-      "Mentoring aspiring developers on production-grade engineering practices and system design thinking.",
+      "Led the frontend development of BestDoc Concierge using Vue, Nuxt, and Vuetify, streamlining request workflows for hospital staff to manage food, diet, and porter services — boosting operational efficiency by 35%.",
+      "Redesigned the request dashboard with real-time updates, filters, and role-based views, reducing service response times by 40% and improving staff coordination across departments.",
+      "Built modular, reusable UI components aligned with Vuetify's design system, accelerating feature delivery by 50% and ensuring consistent user experience across multiple hospital deployments.",
     ],
   },
   {
-    period: "2023 — Present",
-    title: "Freelance Full Stack Engineer",
-    company: "Independent",
-    current: true,
+    period: "Sep 2023 — Mar 2024",
+    title: "React Native Developer",
+    company: "App Stone",
     description: [
-      "Delivering production-ready web and mobile applications for startups and growing businesses.",
-      "Built real-time order management systems for cloud kitchens handling 1000+ daily orders.",
-      "Developed cross-platform mobile apps with React Native (Expo) for fintech and healthcare clients.",
+      "Engineered a cross-platform mobile app using React Native, ensuring a flawless UI/UX by adhering to Figma designs — achieved 98% user satisfaction and reduced development time by 25% across iOS and Android.",
+      "Boosted user interaction by rolling out premium bar discovery, filtered event listings, and personalized bar details — achieved a 30% rise in event attendance and a 20% increase in app sessions within 3 months.",
+      "Implemented personalized user profiles to streamline the booking process, leading to a 20% reduction in drop-off rates.",
     ],
   },
   {
-    period: "2022 — 2024",
-    title: "Frontend Engineer",
-    company: "Product Studio",
+    period: "Oct 2022 — Sep 2023",
+    title: "Full Stack Developer",
+    company: "Eclidse Technologies",
     description: [
-      "Led frontend architecture for multiple client-facing SaaS products using React, Next.js, and Vue.js.",
-      "Reduced core web vitals load time by 40% through code splitting, lazy loading, and image optimization.",
-      "Established component library and design system standards adopted across 4 product teams.",
+      "Developed innovative web applications using the MERN stack, achieving a 40% improvement in user engagement and a 20% decrease in page load times.",
+      "Engaged in daily team discussions to troubleshoot complex coding issues and brainstorm innovative solutions, leading to a 20% decrease in bug resolution time.",
+      "Developed detailed technical documentation for all projects, including code, technical specifications, and user guides, resulting in a 20% decrease in onboarding time for new team members.",
     ],
   },
 ];

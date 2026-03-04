@@ -1,42 +1,55 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";
-import { featuredProjects } from "@/data/projects";
+import { getFeaturedProjects } from "@/lib/data";
 import { currentlyBuilding } from "@/data/experience";
 
 const stackColumns = [
   {
+    title: "LANGUAGES",
+    items: [
+      { icon: "🔤", name: "C" },
+      { icon: "☕", name: "Java" },
+      { icon: "⚡", name: "JavaScript" },
+      { icon: "◇", name: "TypeScript" },
+    ],
+  },
+  {
     title: "FRONTEND",
     items: [
-      { icon: "⚛", name: "React" },
-      { icon: "▲", name: "Next.js" },
-      { icon: "◇", name: "TypeScript" },
-      { icon: "◎", name: "Tailwind CSS" },
+      { icon: "⚛", name: "React / Next.js" },
       { icon: "📱", name: "React Native" },
+      { icon: "🎨", name: "Tailwind / Shadcn" },
+      { icon: "🧊", name: "Three.js" },
+      { icon: "🔄", name: "Redux" },
     ],
   },
   {
     title: "BACKEND & INFRA",
     items: [
-      { icon: "◆", name: "Node.js" },
-      { icon: "⬡", name: "Express" },
-      { icon: "▣", name: "MongoDB" },
-      { icon: "◫", name: "PostgreSQL" },
-      { icon: "▥", name: "SQL" },
+      { icon: "◆", name: "Node.js / NestJS" },
+      { icon: "⬡", name: "Express / GraphQL" },
+      { icon: "◫", name: "PostgreSQL / MySQL" },
+      { icon: "▣", name: "MongoDB / Redis" },
+      { icon: "🔌", name: "Socket.io / REST" },
     ],
   },
   {
-    title: "PHILOSOPHY",
+    title: "CLOUD & TOOLS",
     items: [
-      { icon: "⚡", name: "Performance-first" },
-      { icon: "🔒", name: "Type safety" },
-      { icon: "📐", name: "Scalability" },
-      { icon: "✨", name: "DX (Dev Experience)" },
-      { icon: "🎯", name: "Product thinking" },
+      { icon: "☁", name: "AWS / S3" },
+      { icon: "🔥", name: "Firebase / Vercel" },
+      { icon: "🐳", name: "Docker / K8s" },
+      { icon: "⚙", name: "Nginx / Prisma" },
+      { icon: "🧪", name: "Jest / Mocha / Git" },
     ],
   },
 ];
 
-export default function Home() {
+export const revalidate = 60; // ISR: revalidate every 60 seconds
+
+export default async function Home() {
+  const featuredProjects = await getFeaturedProjects();
+
   return (
     <div className="max-w-6xl mx-auto px-6 lg:px-8">
       {/* Hero Section */}
@@ -95,9 +108,9 @@ export default function Home() {
           Architecture & Stack
         </h2>
         <p className="text-[var(--color-text-secondary)] mb-10">
-          The tools and principles used to build modern digital products.
+          The tools and technologies I use to build modern digital products.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stackColumns.map((col) => (
             <div
               key={col.title}
