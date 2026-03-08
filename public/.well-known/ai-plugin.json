@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Mudassir Mohammed Portfolio",
+  "name_for_model": "mudassir_portfolio",
+  "description_for_human": "Portfolio and technical blog of Mudassir Mohammed — Full Stack Engineer specializing in React, Next.js, TypeScript, and Node.js.",
+  "description_for_model": "This is the portfolio website of Mudassir Mohammed, a Lead Frontend Developer and Full Stack Engineer based in India with 3+ years of professional experience. He specializes in React, Next.js, TypeScript, Node.js, Vue.js, and React Native. He is currently the Lead Frontend Developer at BestDoc Technology. His portfolio includes production projects, technical articles, and career information. He is available for freelance and full-time roles.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://mudassirmhd.in/sitemap.xml"
+  },
+  "logo_url": "https://mudassirmhd.in/icon.svg",
+  "contact_email": "pmudassir@gmail.com",
+  "legal_info_url": "https://mudassirmhd.in"
+}

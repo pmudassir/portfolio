@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import type { DBArticle } from "@/lib/supabase";
 
 export default function AdminJournal() {
@@ -11,20 +10,24 @@ export default function AdminJournal() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function load() {
-      const { data } = await supabase.from("journal_articles").select("*").order("created_at", { ascending: false });
-      setArticles(data ?? []);
-      setLoading(false);
-    }
-    load();
+    fetch("/api/admin/articles")
+      .then((r) => r.json())
+      .then((data) => {
+        setArticles(Array.isArray(data) ? data : []);
+        setLoading(false);
+      });
   }, []);
 
   const filtered = filter === "all" ? articles : articles.filter((a) => a.status === filter);
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this article?")) return;
-    await supabase.from("journal_articles").delete().eq("id", id);
-    setArticles((prev) => prev.filter((a) => a.id !== id));
+    const res = await fetch(`/api/admin/articles/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setArticles((prev) => prev.filter((a) => a.id !== id));
+    } else {
+      alert("Failed to delete article.");
+    }
   }
 
   return (
@@ -49,6 +52,8 @@ export default function AdminJournal() {
 
       {loading ? (
         <div className="text-center py-20 text-[var(--color-text-muted)]">Loading...</div>
+      ) : filtered.length === 0 ? (
+        <div className="text-center py-20 text-[var(--color-text-muted)]">No articles found.</div>
       ) : (
         <div className="border border-[var(--color-border)] rounded-xl overflow-hidden">
           <table className="w-full">

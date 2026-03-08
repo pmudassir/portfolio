@@ -3,7 +3,14 @@ import { experience } from "@/data/experience";
 
 export const metadata: Metadata = {
   title: "Experience",
-  description: "Professional experience timeline of Mudassir Mohammed — Full Stack Engineer.",
+  description: "Professional experience of Mudassir Mohammed — Lead Frontend Developer at BestDoc Technology. 3+ years building scalable web and mobile systems with React, Next.js, Vue, Node.js.",
+  alternates: { canonical: "https://mudassirmhd.in/experience" },
+  openGraph: {
+    title: "Experience — Mudassir Mohammed",
+    description: "Career timeline of Mudassir Mohammed. Lead Frontend Developer at BestDoc Technology, React Native Developer at App Stone, Full Stack Developer at Eclidse Technologies.",
+    url: "https://mudassirmhd.in/experience",
+    type: "profile",
+  },
 };
 
 export default function ExperiencePage() {

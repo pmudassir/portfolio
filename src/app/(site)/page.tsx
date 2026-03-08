@@ -97,6 +97,7 @@ export default async function Home() {
               title={project.title}
               description={project.description}
               stack={project.stack}
+              hasLandingPage={!!project.landing_page}
             />
           ))}
         </div>

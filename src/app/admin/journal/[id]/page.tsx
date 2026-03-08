@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 import { use } from "react";
 
 const CATEGORIES = ["Architecture", "Mobile", "TypeScript", "Infrastructure", "Product", "DevOps", "Frontend", "Backend"];
@@ -12,6 +11,7 @@ export default function EditArticle({ params }: { params: Promise<{ id: string }
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     title: "", slug: "", excerpt: "", content: "",
     category: "Architecture", read_time: "5 min read",
@@ -20,27 +20,42 @@ export default function EditArticle({ params }: { params: Promise<{ id: string }
   });
 
   useEffect(() => {
-    async function load() {
-      const { data } = await supabase.from("journal_articles").select("*").eq("id", id).single();
-      if (data) {
-        setForm({
-          title: data.title, slug: data.slug, excerpt: data.excerpt || "",
-          content: data.content || "", category: data.category || "Architecture",
-          read_time: data.read_time || "5 min read",
-          published_at: data.published_at ? data.published_at.split("T")[0] : "",
-          status: data.status,
-        });
-      }
-      setLoading(false);
-    }
-    load();
+    fetch(`/api/admin/articles/${id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.id) {
+          setForm({
+            title: data.title,
+            slug: data.slug,
+            excerpt: data.excerpt || "",
+            content: data.content || "",
+            category: data.category || "Architecture",
+            read_time: data.read_time || "5 min read",
+            published_at: data.published_at ? data.published_at.split("T")[0] : "",
+            status: data.status,
+          });
+        }
+        setLoading(false);
+      });
   }, [id]);
 
   async function handleSave(status: "draft" | "published") {
+    if (!form.title.trim()) { setError("Title is required."); return; }
+    setError("");
     setSaving(true);
-    const { error } = await supabase.from("journal_articles").update({ ...form, status }).eq("id", id);
+
+    const res = await fetch(`/api/admin/articles/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, status }),
+    });
+
     setSaving(false);
-    if (error) { alert("Error: " + error.message); return; }
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.error ?? "Failed to save article.");
+      return;
+    }
     router.push("/admin/journal");
   }
 
@@ -52,6 +67,12 @@ export default function EditArticle({ params }: { params: Promise<{ id: string }
         Journal &gt; <span className="text-[var(--color-text-primary)]">Edit</span>
       </div>
       <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-10">Edit Article</h1>
+
+      {error && (
+        <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+          {error}
+        </div>
+      )}
 
       {/* Title */}
       <div className="mb-8">
@@ -102,11 +123,11 @@ export default function EditArticle({ params }: { params: Promise<{ id: string }
       <div className="flex items-center justify-end gap-3 border-t border-[var(--color-border)] pt-6">
         <button onClick={() => handleSave("draft")} disabled={saving}
           className="px-6 py-3 rounded-lg border border-[var(--color-border)] text-[var(--color-text-primary)] font-bold text-sm hover:border-[var(--color-primary)]/50 transition-colors disabled:opacity-50">
-          Save Draft
+          {saving ? "Saving…" : "Save Draft"}
         </button>
         <button onClick={() => handleSave("published")} disabled={saving}
           className="px-6 py-3 rounded-lg bg-[var(--color-primary)] text-[var(--color-background)] font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50">
-          Publish
+          {saving ? "Publishing…" : "Publish"}
         </button>
       </div>
     </div>

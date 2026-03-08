@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, getAllProjectSlugs, getPublishedProjects } from "@/lib/data";
@@ -7,6 +8,45 @@ export const revalidate = 60;
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs();
   return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
+  if (!project) return {};
+
+  const baseUrl = "https://mudassirmhd.in";
+  const url = `${baseUrl}/projects/${slug}`;
+
+  return {
+    title: project.title,
+    description: project.description,
+    keywords: [
+      ...project.stack,
+      "case study",
+      "project",
+      "Mudassir Mohammed",
+      "Full Stack Engineer",
+    ],
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${project.title} — Mudassir Mohammed`,
+      description: project.description,
+      url,
+      type: "article",
+      images: [{ url: `${baseUrl}/opengraph-image`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — Mudassir Mohammed`,
+      description: project.description,
+      creator: "@mudassirmhd",
+    },
+  };
 }
 
 export default async function ProjectCaseStudy({ params }: { params: Promise<{ slug: string }> }) {
@@ -21,8 +61,29 @@ export default async function ProjectCaseStudy({ params }: { params: Promise<{ s
   const archDecisions = project.architectural_decisions as { title: string; description: string; icon: string }[];
   const impactMetrics = project.impact_metrics as { metric: string; label: string }[];
 
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.title,
+    description: project.description,
+    url: `https://mudassirmhd.in/projects/${slug}`,
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web",
+    author: {
+      "@type": "Person",
+      name: "Mudassir Mohammed",
+      url: "https://mudassirmhd.in",
+    },
+    programmingLanguage: project.stack,
+    ...(project.live_url ? { sameAs: project.live_url } : {}),
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }}
+      />
       <section className="pt-16 pb-24 md:pt-20">
         {/* Header */}
         <Link

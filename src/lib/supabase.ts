@@ -5,6 +5,30 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Landing page theme configuration
+export interface LandingPageTheme {
+  primary_color: string;
+  mood: 'minimal' | 'bold' | 'technical' | 'playful' | 'enterprise' | 'dark' | 'vibrant';
+  font_style: 'geometric' | 'humanist' | 'monospace' | 'serif' | 'modern-sans';
+}
+
+export interface LandingPageFeature {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface LandingPage {
+  tagline: string;
+  hero_description: string;
+  theme: LandingPageTheme;
+  features: LandingPageFeature[];
+  problem_statement: string;
+  solution_statement: string;
+  target_audience: string;
+  screenshots_description: string;
+}
+
 // Database types
 export interface DBProject {
   id: string;
@@ -20,10 +44,11 @@ export interface DBProject {
   code_snippet: string;
   code_language: string;
   impact_metrics: { metric: string; label: string }[];
-  live_url: string;
-  github_url: string;
+  live_url: string | null;
+  github_url: string | null;
   featured: boolean;
   status: 'draft' | 'published';
+  landing_page: LandingPage | null;
   created_at: string;
   updated_at: string;
 }

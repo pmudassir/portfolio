@@ -1,5 +1,18 @@
+import type { Metadata } from "next";
 import ProjectCard from "@/components/ProjectCard";
 import { getPublishedProjects } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description: "Engineering case studies by Mudassir Mohammed — Full Stack Engineer. Real-world projects in React, Next.js, TypeScript, Node.js, Vue, and React Native with documented architectural decisions.",
+  alternates: { canonical: "https://mudassirmhd.in/projects" },
+  openGraph: {
+    title: "Projects — Mudassir Mohammed",
+    description: "Engineering case studies documenting real architectural decisions, challenges, and impact metrics from production web and mobile systems.",
+    url: "https://mudassirmhd.in/projects",
+    type: "website",
+  },
+};
 
 export const revalidate = 60;
 
@@ -24,6 +37,7 @@ export default async function ProjectsPage() {
               title={project.title}
               description={project.description}
               stack={project.stack}
+              hasLandingPage={!!project.landing_page}
             />
           ))}
         </div>

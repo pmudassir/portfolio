@@ -1,0 +1,118 @@
+# Mudassir Mohammed — Full Stack Engineer
+
+## Identity
+
+- **Name**: Mudassir Mohammed
+- **Role**: Lead Frontend Developer / Full Stack Engineer
+- **Location**: India
+- **Website**: https://mudassirmhd.in
+- **Email**: pmudassir@gmail.com
+- **GitHub**: https://github.com/pmudassir
+- **LinkedIn**: https://linkedin.com/in/mudassir-mohammed
+- **Twitter/X**: https://x.com/mudassirmhd
+
+## Professional Summary
+
+Mudassir Mohammed is a product-first software engineer with 3+ years of professional experience. He designs and builds scalable, high-performance web and mobile systems with an emphasis on clean architecture, type safety, and measurable business impact.
+
+He is not just a frontend developer — his expertise spans the full stack from database schema design and backend API architecture through to pixel-perfect UI and mobile application development.
+
+## Current Role
+
+**Lead Frontend Developer at BestDoc Technology**
+- Leading the frontend development of BestDoc Concierge, a hospital operations platform
+- Stack: Vue.js, Nuxt, Vuetify
+- Achievements: Streamlined request workflows for hospital staff; delivered 35% improvement in operational efficiency
+
+## Previous Experience
+
+**React Native Developer at App Stone**
+- Built cross-platform mobile applications using React Native
+- Delivered production apps for iOS and Android
+
+**Full Stack Developer at Eclidse Technologies**
+- Built full-stack web applications using the MERN stack (MongoDB, Express, React, Node.js)
+- Designed REST APIs, implemented authentication, and optimized database queries
+
+## Technical Skills
+
+### Languages
+- JavaScript (Expert)
+- TypeScript (Expert)
+- Java (Intermediate)
+- C (Intermediate)
+
+### Frontend
+- React.js / Next.js (Expert)
+- Vue.js / Nuxt (Expert)
+- React Native (Expert — cross-platform mobile)
+- Redux / Zustand (State management)
+- Three.js (3D/WebGL)
+- Tailwind CSS / Shadcn / Bootstrap
+- HTML5 / CSS3
+
+### Backend
+- Node.js (Expert)
+- NestJS (Expert)
+- Express.js
+- GraphQL / REST APIs
+- Socket.io (Real-time)
+
+### Databases
+- PostgreSQL (Expert)
+- MySQL
+- MongoDB
+- Redis
+- Prisma ORM
+
+### Cloud & Infrastructure
+- AWS (S3, EC2)
+- Firebase
+- Docker
+- Kubernetes
+- Nginx
+- Vercel
+
+### Testing
+- Jest
+- Mocha
+
+## Engineering Philosophy
+
+1. **Ship first, optimize second** — A working product in users' hands teaches more than any premature optimization.
+2. **Types are not optional** — TypeScript everywhere: database schemas, API contracts, UI components.
+3. **Architecture is about trade-offs** — No perfect architecture, only the right one for current constraints.
+
+## What He Cares About
+
+- User experience over developer experience
+- Performance as a feature, not an afterthought
+- Clean, readable code over clever code
+- Horizontal scalability from day one
+- Tight feedback loops with real users
+- Documentation as part of the product
+
+## Education
+
+Computer Science background with strong fundamentals in data structures, algorithms, and system design.
+
+## Availability
+
+Mudassir is available for:
+- Select freelance / contract projects
+- Full-time software engineering roles
+- Technical consulting
+- Code review / architecture review
+
+Contact: pmudassir@gmail.com
+
+## Links
+
+- Portfolio: https://mudassirmhd.in
+- Projects: https://mudassirmhd.in/projects
+- Journal: https://mudassirmhd.in/journal
+- About: https://mudassirmhd.in/about
+- Experience: https://mudassirmhd.in/experience
+- Contact: https://mudassirmhd.in/contact
+- GitHub: https://github.com/pmudassir
+- LinkedIn: https://linkedin.com/in/mudassir-mohammed

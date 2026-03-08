@@ -1,0 +1,39 @@
+# Mudassir Mohammed
+
+> Lead Frontend Developer & Full Stack Engineer specializing in scalable web and mobile systems.
+
+## About
+
+Mudassir Mohammed is a software engineer with 3+ years of professional experience building production-grade web and mobile applications. He is currently employed as Lead Frontend Developer at BestDoc Technology, where he leads frontend development of BestDoc Concierge using Vue, Nuxt, and Vuetify — streamlining request workflows for hospital staff and improving operational efficiency by 35%.
+
+- Website: https://mudassirmhd.in
+- Email: pmudassir@gmail.com
+- GitHub: https://github.com/pmudassir
+- LinkedIn: https://linkedin.com/in/mudassir-mohammed
+- Twitter/X: https://x.com/mudassirmhd
+
+## Skills
+
+**Frontend**: React, Next.js, TypeScript, Vue.js, Nuxt, React Native, Three.js, Redux, Tailwind CSS, Shadcn, Bootstrap
+**Backend**: Node.js, NestJS, Express, GraphQL, Socket.io, REST APIs
+**Database**: PostgreSQL, MySQL, MongoDB, Redis, Prisma
+**Cloud & DevOps**: AWS, S3, Firebase, Docker, Kubernetes, Nginx, Vercel, Git
+**Languages**: JavaScript, TypeScript, Java, C
+
+## Experience
+
+- **Lead Frontend Developer** — BestDoc Technology (Current)
+- **React Native Developer** — App Stone
+- **Full Stack Developer** — Eclidse Technologies
+
+## Projects
+
+Full project case studies available at: https://mudassirmhd.in/projects
+
+## Writing / Journal
+
+Technical articles and engineering insights: https://mudassirmhd.in/journal
+
+## Availability
+
+Available for select freelance projects and full-time opportunities. Contact: pmudassir@gmail.com

@@ -3,7 +3,61 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About Mudassir Mohammed — Lead Frontend Developer at BestDoc Technology, building production-grade web and mobile systems.",
+  description: "About Mudassir Mohammed — Lead Frontend Developer at BestDoc Technology with 3+ years building production-grade web and mobile systems using React, Next.js, TypeScript, Node.js, and Vue.",
+  alternates: { canonical: "https://mudassirmhd.in/about" },
+  openGraph: {
+    title: "About Mudassir Mohammed — Full Stack Engineer",
+    description: "Lead Frontend Developer at BestDoc Technology. 3+ years building scalable web and mobile systems with React, Next.js, TypeScript, Node.js, Vue, and React Native.",
+    url: "https://mudassirmhd.in/about",
+    type: "profile",
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Who is Mudassir Mohammed?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Mudassir Mohammed is a Lead Frontend Developer and Full Stack Engineer with 3+ years of experience building production-grade web and mobile applications. He currently works at BestDoc Technology and specializes in React, Next.js, TypeScript, Node.js, Vue.js, and React Native.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What technologies does Mudassir Mohammed specialize in?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Mudassir specializes in React, Next.js, TypeScript, Vue.js, Nuxt, React Native on the frontend; Node.js, NestJS, Express, GraphQL, Socket.io on the backend; PostgreSQL, MongoDB, Redis, MySQL for databases; and AWS, Docker, Kubernetes, Firebase for cloud and infrastructure.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Mudassir Mohammed available for freelance or contract work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, Mudassir Mohammed is available for select freelance projects and full-time opportunities. You can reach him at pmudassir@gmail.com or through the contact page at mudassirmhd.in/contact.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where has Mudassir Mohammed worked?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Mudassir has worked at BestDoc Technology as Lead Frontend Developer (current), App Stone as React Native Developer, and Eclidse Technologies as a Full Stack Developer. He has over 3 years of professional software engineering experience.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What kind of projects has Mudassir Mohammed built?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Mudassir has built production-grade web and mobile applications including hospital workflow management systems, cross-platform mobile apps with React Native, full-stack MERN applications, and scalable distributed systems. His work has delivered measurable impact including a 35% improvement in operational efficiency at BestDoc.",
+      },
+    },
+  ],
 };
 
 const skills = [
@@ -32,6 +86,10 @@ const skills = [
 export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 lg:px-8 pt-16 pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Header */}
       <section className="mb-16">
         <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight text-[var(--color-text-primary)]">

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getArticleBySlug, getAllArticleSlugs, getPublishedArticles } from "@/lib/data";
@@ -7,6 +8,50 @@ export const revalidate = 60;
 export async function generateStaticParams() {
   const slugs = await getAllArticleSlugs();
   return slugs.map((slug) => ({ slug }));
+}
+
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
+  if (!article) return {};
+
+  const baseUrl = "https://mudassirmhd.in";
+  const url = `${baseUrl}/journal/${slug}`;
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    keywords: [
+      article.category,
+      "engineering",
+      "software development",
+      "Mudassir Mohammed",
+      "tech blog",
+    ],
+    authors: [{ name: "Mudassir Mohammed", url: baseUrl }],
+    alternates: { canonical: url },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url,
+      type: "article",
+      publishedTime: article.published_at,
+      authors: ["Mudassir Mohammed"],
+      tags: [article.category],
+      images: [{ url: `${baseUrl}/opengraph-image`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      creator: "@mudassirmhd",
+    },
+  };
 }
 
 function renderContent(content: string) {
@@ -111,8 +156,38 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     month: "short", day: "numeric", year: "numeric"
   }).toUpperCase();
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    url: `https://mudassirmhd.in/journal/${slug}`,
+    datePublished: article.published_at,
+    dateModified: article.published_at,
+    author: {
+      "@type": "Person",
+      name: "Mudassir Mohammed",
+      url: "https://mudassirmhd.in",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Mudassir Mohammed",
+      url: "https://mudassirmhd.in",
+    },
+    articleSection: article.category,
+    timeRequired: article.read_time,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://mudassirmhd.in/journal/${slug}`,
+    },
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <section className="pt-16 pb-24 md:pt-20">
         <Link href="/journal" className="inline-flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-primary)] transition-colors mb-8">
           <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

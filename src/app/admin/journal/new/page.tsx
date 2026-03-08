@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 
 const CATEGORIES = ["Architecture", "Mobile", "TypeScript", "Infrastructure", "Product", "DevOps", "Frontend", "Backend"];
 
 export default function NewArticle() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     title: "", slug: "", excerpt: "", content: "",
     category: "Architecture", read_time: "5 min read",
@@ -21,13 +21,24 @@ export default function NewArticle() {
   }
 
   async function handleSave(status: "draft" | "published") {
+    if (!form.title.trim()) { setError("Title is required."); return; }
+    if (!form.excerpt.trim()) { setError("Excerpt is required."); return; }
+    setError("");
     setSaving(true);
+
     const slug = form.slug || autoSlug(form.title);
-    const { error } = await supabase.from("journal_articles").insert({
-      ...form, slug, status,
+    const res = await fetch("/api/admin/articles", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, slug, status }),
     });
+
     setSaving(false);
-    if (error) { alert("Error: " + error.message); return; }
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.error ?? "Failed to save article.");
+      return;
+    }
     router.push("/admin/journal");
   }
 
@@ -40,7 +51,13 @@ export default function NewArticle() {
       <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-2">Write New Article</h1>
       <p className="text-[var(--color-text-secondary)] mb-10">Share technical insights and engineering notes.</p>
 
-      {/* Title & Slug */}
+      {error && (
+        <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+          {error}
+        </div>
+      )}
+
+      {/* Title */}
       <div className="mb-8">
         <label className="text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--color-primary)] block mb-2">Title</label>
         <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value, slug: autoSlug(e.target.value) })} placeholder="e.g. Building Offline-First Mobile Apps"
@@ -89,11 +106,11 @@ export default function NewArticle() {
       <div className="flex items-center justify-end gap-3 border-t border-[var(--color-border)] pt-6">
         <button onClick={() => handleSave("draft")} disabled={saving}
           className="px-6 py-3 rounded-lg border border-[var(--color-border)] text-[var(--color-text-primary)] font-bold text-sm hover:border-[var(--color-primary)]/50 transition-colors disabled:opacity-50">
-          Save Draft
+          {saving ? "Saving…" : "Save Draft"}
         </button>
         <button onClick={() => handleSave("published")} disabled={saving}
           className="px-6 py-3 rounded-lg bg-[var(--color-primary)] text-[var(--color-background)] font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50">
-          Publish Article
+          {saving ? "Publishing…" : "Publish Article"}
         </button>
       </div>
     </div>
