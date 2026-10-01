@@ -1,64 +1,21 @@
-import { MetadataRoute } from "next";
-import { getAllProjectSlugs, getAllArticleSlugs } from "@/lib/data";
+import type { MetadataRoute } from "next";
+import { projects } from "@/content/projects";
+import { absoluteUrl } from "@/lib/metadata";
 
-const baseUrl = "https://mudassirmhd.in";
+// Bump when content changes meaningfully.
+const lastModified = new Date("2026-10-01");
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projectSlugs = await getAllProjectSlugs().catch(() => []);
-  const articleSlugs = await getAllArticleSlugs().catch(() => []);
-
-  const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/journal`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/experience`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
+export default function sitemap(): MetadataRoute.Sitemap {
+  const pages = [
+    { path: "/", priority: 1 },
+    { path: "/projects", priority: 0.9 },
+    { path: "/work", priority: 0.9 },
+    { path: "/about", priority: 0.6 },
+    { path: "/contact", priority: 0.6 },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = projectSlugs.map((slug) => ({
-    url: `${baseUrl}/projects/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
-
-  const articleRoutes: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
-    url: `${baseUrl}/journal/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  return [...staticRoutes, ...projectRoutes, ...articleRoutes];
+  return [
+    ...pages.map((p) => ({ url: absoluteUrl(p.path), lastModified, priority: p.priority })),
+    ...projects.map((p) => ({ url: absoluteUrl(`/projects/${p.slug}`), lastModified, priority: p.featured ? 0.8 : 0.6 })),
+  ];
 }

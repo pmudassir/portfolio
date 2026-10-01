@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# mudassir.in
 
-## Getting Started
+Personal site of Mudassir Mohammed: experience, engineering case studies and contact details.
 
-First, run the development server:
+Static Next.js (App Router) pages. Content lives in typed TypeScript files; there's no CMS, database or API. Client-side JavaScript is limited to the copy-email button and the active navigation link.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run lint
+npm run build      # every route is prerendered
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `NEXT_PUBLIC_SITE_URL` (see `.env.example`) to the production origin. It's used for canonical URLs, the sitemap, OpenGraph images and structured data. It defaults to `https://mudassir.in`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things are
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Path | What |
+|---|---|
+| `src/content/site.ts` | Name, role, email, links, location, availability |
+| `src/content/experience.ts` | Roles and education |
+| `src/content/skills.ts` | Skill groups and where each is evidenced |
+| `src/content/projects/*.tsx` | Case studies, one file each; `index.ts` sets the order |
+| `src/components/case-study.tsx` | Case-study blocks: flow diagram, decision records, challenges, tables |
+| `src/app/` | Routes: `/`, `/work`, `/projects`, `/projects/[slug]`, `/about`, `/contact` |
+| `src/app/**/opengraph-image.tsx` | Generated social cards (site and per project) |
+| `src/app/llms.txt/route.ts` | Plain-text summary generated from the same content |
+| `public/resume.pdf` | The résumé linked from the site |
 
-## Learn More
+### Adding a case study
 
-To learn more about Next.js, take a look at the following resources:
+1. Copy `src/content/projects/koin.tsx` to a new file and fill in the fields. `sections` become the page's table of contents.
+2. Add it to the `projects` array in `src/content/projects/index.ts`. Set `featured: true` to show it on the home page.
+3. `npm run build` checks types and prerenders the new page, its OG image and its sitemap entry.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Writing rules
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Every claim should be checkable: link the repo, name the file or decision, or leave it out.
+- No metrics without a source.
+- Prefer "what I built and why" over adjectives.
 
-## Deploy on Vercel
+## Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Warm paper and ink, one accent colour. Dark mode follows the OS. Type is Newsreader for headings, IBM Plex Sans for text and IBM Plex Mono for labels, all self-hosted through `next/font`. Text colour tokens in `globals.css` meet WCAG AA in both themes.
