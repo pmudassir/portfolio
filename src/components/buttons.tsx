@@ -2,11 +2,11 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-[0.9375rem] font-medium transition-colors";
+  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[0.9375rem] font-medium transition-colors";
 
 const variants = {
-  primary: "bg-ink text-paper hover:bg-ink/85",
-  secondary: "border border-rule-strong text-ink hover:border-ink-3 hover:bg-paper-2",
+  primary: "bg-accent text-paper hover:bg-accent-hover",
+  secondary: "border border-ink/45 text-ink hover:border-ink",
   quiet: "px-0 py-1 text-ink-2 hover:text-ink",
 };
 

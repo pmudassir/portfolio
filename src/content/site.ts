@@ -18,6 +18,8 @@ export const site = {
     country: "India",
     countryCode: "IN",
     timezone: "IST (UTC+5:30)",
+    /** IANA zone for the live clocks. */
+    timeZone: "Asia/Kolkata",
   },
   currently: {
     title: "Lead Software Engineer",
@@ -26,6 +28,8 @@ export const site = {
     since: "Nov 2024",
   },
   startedYear: 2022,
+  /** First production job (yyyy-mm), for the years-shipping figure. */
+  startedOn: "2022-10",
   availability: {
     open: true,
     label: "Open to remote roles",
@@ -38,6 +42,14 @@ export const site = {
     source: "https://github.com/pmudassir/portfolio",
   },
 } as const;
+
+/** Whole years since the first production job. Static pages compute it at build time. */
+export const yearsShipping = Math.floor(
+  (Date.now() - new Date(`${site.startedOn}-01T00:00:00Z`).getTime()) / (365.25 * 24 * 60 * 60 * 1000),
+);
+
+/** The site's host, e.g. "mudassir.in", for printed URLs and barcodes. */
+export const siteHost = new URL(site.url).host;
 
 export const nav = [
   { href: "/work", label: "Work" },

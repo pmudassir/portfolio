@@ -1,45 +1,29 @@
 @import "tailwindcss";
 
 /* ── Tokens ────────────────────────────────────────────────
-   Warm paper + ink, one accent. Dark mode follows the OS.
-   All text tokens pass WCAG AA on both surfaces.            */
+   "Darkroom": one object lit in warm darkness (Refero: ORYZO AI).
+   Dark only. All text tokens pass WCAG AA on --paper and --paper-2. */
 :root {
-  --paper: #fbfaf7;
-  --paper-2: #f3f1ec;
-  --ink: #1b1a17;
-  --ink-2: #4a4843;
-  --ink-3: #6b6860;
-  --rule: #e5e2da;
-  --rule-strong: #cdc9bf;
-  --accent: #b4410f;
-  --accent-hover: #933409;
-  --accent-soft: #f5e7de;
-  --ok: #2f7d46;
-  --code-bg: #efece5;
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #121210;
-    --paper-2: #1b1a17;
-    --ink: #ecebe6;
-    --ink-2: #bcbab2;
-    --ink-3: #959289;
-    --rule: #2a2925;
-    --rule-strong: #3d3c37;
-    --accent: #f0884a;
-    --accent-hover: #ffa26b;
-    --accent-soft: #2c1c12;
-    --ok: #5cc27a;
-    --code-bg: #201f1b;
-    color-scheme: dark;
-  }
+  --paper: #100904;
+  --paper-2: #1f150d;
+  --raised: #382416;
+  --ink: #ffedd7;
+  --ink-2: #dccab4;
+  --ink-3: #a8957f;
+  --rule: #40372e;
+  --rule-strong: #6c5f51;
+  --accent: #ff6a1f;
+  --accent-hover: #ff8a4c;
+  --accent-soft: #3a1a08;
+  --ok: #7fc98f;
+  --code-bg: #1f150d;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
+  --color-raised: var(--raised);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
@@ -51,8 +35,8 @@
   --color-ok: var(--ok);
   --color-code: var(--code-bg);
 
-  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-condensed: var(--font-big-shoulders), "Arial Narrow", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -103,6 +87,21 @@ p {
 @utility wrap {
   width: 100%;
   max-width: 70rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Full-bleed variant for the cinematic chapters. */
+@utility wide-wrap {
+  width: 100%;
+  max-width: 96rem;
   margin-inline: auto;
   padding-inline: 1rem;
 
@@ -247,4 +246,610 @@ p {
   background: none;
   padding: 0;
   font-size: inherit;
+}
+
+/* ── Receipt (home) ─────────────────────────────────────────
+   A thermal receipt fed out of a printer pinned to the bottom of the
+   screen. Paper, ink and edges are CSS; the grain is the SVG filters in
+   components/receipt/thermal-filters.tsx. */
+/* Shared by the receipt, its printer and the index in the margin. */
+:root {
+  --receipt-w: min(calc(100vw - 2rem), 34rem);
+}
+
+/* Paper re-scopes the colour tokens, so anything set inside a sheet (case-study diagrams,
+   tables, prose, buttons) prints in ink on paper without its own styles. */
+.paper {
+  --paper: #f2eee5;
+  --paper-2: #e7e1d5;
+  --ink: #171513;
+  --ink-2: #3b3732;
+  --ink-3: #655e55;
+  --rule: #cfc6b7;
+  --rule-strong: #a3988a;
+  --accent: #a3330f;
+  --accent-hover: #7f260a;
+  --accent-soft: #ecd5c7;
+  --code-bg: #e5dfd2;
+  --paper-tone: var(--paper);
+  --ink-print: var(--ink);
+}
+
+.receipt-stage {
+  position: relative;
+  padding-top: 0.5rem;
+}
+
+.receipt-feed {
+  position: relative;
+  width: var(--sheet-w, var(--receipt-w));
+  margin-inline: auto;
+}
+
+/* Wider stock for case studies, which carry diagrams and tables. */
+.receipt-feed-wide {
+  --sheet-w: min(calc(100vw - 2rem), 50rem);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* On load the first stretch of paper feeds out in small jerks, like a print head stepping. */
+  .receipt-feed {
+    animation: feed 1.5s steps(18, end) 0.25s both;
+  }
+}
+
+@keyframes feed {
+  from {
+    transform: translateY(70vh);
+  }
+}
+
+/* A static blurred box under the paper: a real shadow without filtering the paper itself. */
+.receipt-shadow {
+  position: absolute;
+  inset: 1.5rem 0.75rem 0;
+  background: rgb(0 0 0 / 0.65);
+  filter: blur(28px);
+}
+
+.receipt {
+  --tooth: 14px;
+  container-type: inline-size;
+  position: relative;
+  /* The mask hides what spills past the paper but layout still counts it (the stamp starts its
+     entrance at 2.4x); clip it so phones don't zoom out to fit. */
+  overflow: clip;
+  padding: 3rem clamp(1.25rem, 5vw, 2.5rem) 4rem;
+  background-color: var(--paper-tone);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.32 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  color: var(--ink-print);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  /* Torn zigzag at the top and bottom. */
+  mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / var(--tooth) 51% repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / var(--tooth) 51% repeat-x;
+}
+
+/* Thermal grain on everything printed on the home receipt; inner pages use it on headings only.
+   The stamp has its own ink, and the barcode stays sharp so it scans. */
+.thermal > :not(.receipt-stamp, .receipt-foot),
+.thermal-text {
+  filter: url(#thermal);
+}
+
+.receipt a {
+  text-decoration-thickness: 1px;
+}
+
+.receipt a:focus-visible {
+  outline-color: var(--ink-print);
+}
+
+.receipt-head {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.receipt-name {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  /* Sized to the paper so the longer line fills the width exactly. */
+  font-size: 21cqi;
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  filter: url(#thermal-heavy);
+}
+
+.receipt-title {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: min(17cqi, 6.5rem);
+  line-height: 0.85;
+  text-transform: uppercase;
+  text-wrap: balance;
+  filter: url(#thermal-heavy);
+}
+
+/* Small printed label above a title, like the header line of a receipt. */
+.receipt-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+}
+
+.receipt-trio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.75rem;
+  font-weight: 600;
+}
+
+.receipt-center {
+  margin-top: 1.5rem;
+  line-height: 1.45;
+}
+
+.receipt-kv {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 1.25rem;
+  margin-top: 2rem;
+  text-transform: uppercase;
+}
+
+.receipt-kv dd {
+  text-align: right;
+}
+
+/* Key facts under a title: label on the left, value on the right, dashed between rows. */
+.receipt-facts {
+  margin-top: 2rem;
+  border-block: 2px dashed currentColor;
+}
+
+.receipt-facts > div {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 1rem;
+  padding-block: 0.6rem;
+}
+
+.receipt-facts > div + div {
+  border-top: 1px dashed color-mix(in oklab, currentColor 40%, transparent);
+}
+
+.receipt-facts dt {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.receipt-contents {
+  margin-top: 0.75rem;
+  counter-reset: contents;
+}
+
+.receipt-contents a {
+  display: flex;
+  gap: 0.5rem;
+  padding-block: 0.2rem;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.receipt-contents a::after {
+  content: "";
+  flex: 1;
+  margin-bottom: 0.35em;
+  border-bottom: 2px dotted color-mix(in oklab, currentColor 45%, transparent);
+}
+
+.receipt-role {
+  margin-top: 1rem;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: 2.25rem;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.receipt-dashes > li {
+  position: relative;
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  line-height: 1.45;
+}
+
+.receipt-dashes > li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+}
+
+.receipt-email {
+  display: block;
+  margin-top: 1.75rem;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: min(9.5cqi, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+.receipt-photo {
+  margin: 2rem auto 0;
+  width: fit-content;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.receipt-photo canvas {
+  width: 11rem;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.receipt-photo figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.receipt-lede {
+  margin-top: 2rem;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.receipt-rule {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  padding-block: 0.6rem;
+  border-block: 2px dashed currentColor;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.receipt-items > li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr auto;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  text-transform: uppercase;
+}
+
+.receipt-items small {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-transform: none;
+  opacity: 0.78;
+}
+
+.receipt-perf {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.receipt-perf::after {
+  content: "";
+  flex: 1;
+  border-top: 2px dashed currentColor;
+}
+
+.receipt-stub {
+  display: block;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0;
+  transform-origin: 0 0;
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* The stub gives a little, as if you'd started to tear it. */
+  .receipt-stub:hover {
+    transform: translateY(4px) rotate(-1.2deg);
+  }
+}
+
+.receipt-stub-top,
+.receipt-stub-kind,
+.receipt-stub-cta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+}
+
+.receipt-stub-name {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+.receipt-stub-kind {
+  margin-top: 0.4rem;
+}
+
+.receipt-stub-text {
+  display: block;
+  margin-top: 0.6rem;
+}
+
+.receipt-stub-cta {
+  margin-top: 0.7rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.receipt-stack > div {
+  padding-top: 0.85rem;
+}
+
+.receipt-stack dt {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.receipt-stack dd {
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+
+.receipt-terms {
+  font-size: 0.875rem;
+}
+
+.receipt-terms > li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  padding-top: 0.75rem;
+}
+
+.receipt-total {
+  margin-top: 2.25rem;
+  padding-top: 0.75rem;
+  border-top: 2px dashed currentColor;
+  text-transform: uppercase;
+}
+
+.receipt-total > p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.3rem;
+}
+
+.receipt-total-big {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem !important;
+  border-top: 2px solid currentColor;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.receipt-foot {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.receipt-foot > p {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+}
+
+.receipt-thanks {
+  margin-top: 1.5rem !important;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: 2.25rem !important;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+/* A red rubber stamp, given its own space below the totals so it never covers the barcode. */
+.receipt-stamp {
+  width: fit-content;
+  margin: 2rem auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem 0.6rem;
+  border: 4px double #c2331c;
+  border-radius: 6px;
+  color: #c2331c;
+  text-transform: uppercase;
+  transform: rotate(-9deg);
+  filter: url(#stamp-ink);
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+}
+
+.receipt-stamp span {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: 2.75rem;
+  line-height: 0.9;
+}
+
+.receipt-stamp small {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* The 404 receipt's stamp lands on the list. */
+.receipt-stamp-void {
+  position: absolute;
+  bottom: 3rem;
+  right: 1.5rem;
+  margin: 0;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .receipt-stamp {
+      animation: stamp linear both;
+      animation-timeline: view();
+      animation-range: entry 70% cover 40%;
+    }
+  }
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(-22deg) scale(2.4);
+  }
+  70% {
+    opacity: 0.9;
+    transform: rotate(-8deg) scale(0.94);
+  }
+  100% {
+    opacity: 0.88;
+    transform: rotate(-9deg) scale(1);
+  }
+}
+
+/* Index of a sheet's sections, in the empty margin to its left on wide screens. */
+.receipt-index {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(100% + 4rem);
+  width: 12rem;
+  display: none;
+  color: var(--ink-3);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+}
+
+.receipt-index-inner {
+  position: sticky;
+  top: 30vh;
+}
+
+@media (width >= 72rem) {
+  .receipt-index:not(.receipt-index-wide) {
+    display: block;
+  }
+}
+
+@media (width >= 86rem) {
+  .receipt-index-wide {
+    display: block;
+  }
+}
+
+.receipt-index a {
+  display: block;
+  padding-block: 0.3rem;
+  transition: color 150ms ease;
+}
+
+.receipt-index a:hover {
+  color: var(--ink);
+}
+
+/* The printer: pinned to the bottom of the screen while the receipt prints, then left behind
+   at the torn end. The paper runs behind it, into the slot. */
+.printer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  width: min(calc(var(--receipt-w) + 3rem), 100vw);
+  margin: -1.25rem auto 0;
+}
+
+.printer-slot {
+  height: 1.25rem;
+  margin-inline: 1rem;
+  background: #050403;
+  border-radius: 6px 6px 0 0;
+  box-shadow: inset 0 3px 6px rgb(0 0 0 / 0.9);
+}
+
+.printer-body {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 3.75rem;
+  padding-inline: 1.25rem;
+  background: #1f1a16;
+  border-radius: 10px 10px 0 0;
+  box-shadow: inset 0 1px 0 rgb(255 237 215 / 0.12);
+  color: #8c7e70;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.printer-led {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #5fd27a;
+  box-shadow: 0 0 8px #5fd27a;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .printer-led {
+    animation: blink 1.2s steps(2, jump-none) infinite;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.printer-display {
+  font-variant-numeric: tabular-nums;
+  color: #d9cbb8;
+}
+
+.printer-model {
+  margin-left: auto;
+  letter-spacing: 0.04em;
+}
+
+/* Full-screen menu entries. */
+.menu-link {
+  display: inline-block;
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 150ms ease, transform 200ms ease;
+}
+
+.menu-link:hover,
+.menu-link[aria-current="page"] {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-link:hover {
+    transform: translateX(0.75rem);
+  }
 }

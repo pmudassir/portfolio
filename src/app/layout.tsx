@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { Big_Shoulders, IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { ThermalFilters } from "@/components/receipt/thermal-filters";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const sans = IBM_Plex_Sans({
+const grotesk = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-sans",
+  weight: "variable",
+  variable: "--font-grotesk",
   display: "swap",
 });
 
@@ -22,10 +23,11 @@ const mono = IBM_Plex_Mono({
   preload: false,
 });
 
-const serif = Newsreader({
+// Condensed display face, only for the name printed at the top of the receipt.
+const condensed = Big_Shoulders({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-newsreader",
+  weight: ["800"],
+  variable: "--font-big-shoulders",
   display: "swap",
 });
 
@@ -74,10 +76,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
-    { media: "(prefers-color-scheme: dark)", color: "#121210" },
-  ],
+  themeColor: "#100904",
+  colorScheme: "dark",
 };
 
 const personSchema = {
@@ -133,7 +133,7 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
+    <html lang="en" className={`${grotesk.variable} ${mono.variable} ${condensed.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
@@ -142,8 +142,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <JsonLd data={[personSchema, websiteSchema]} />
+        <ThermalFilters />
         <SiteHeader />
-        <main id="main" className="flex-1">
+        <main id="main" className="relative flex-1 pt-24 sm:pt-28">
           {children}
         </main>
         <SiteFooter />
