@@ -1,4 +1,4 @@
-# mudassir.in
+# mudassirmhd.in
 
 Personal site of Mudassir Mohammed: experience, engineering case studies and contact details.
 
@@ -16,7 +16,7 @@ npm run test:e2e   # Playwright, desktop + phone, against a production build
 
 The first `test:e2e` run needs a browser: `npx playwright install chromium`.
 
-Set `NEXT_PUBLIC_SITE_URL` (see `.env.example`) to the production origin. It's used for canonical URLs, the sitemap, OpenGraph images and structured data. It defaults to `https://mudassir.in`.
+Set `NEXT_PUBLIC_SITE_URL` (see `.env.example`) to the production origin. It's used for canonical URLs, the sitemap, OpenGraph images and structured data. It defaults to `https://mudassirmhd.in`.
 
 ## Where things are
 
