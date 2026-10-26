@@ -1,29 +1,36 @@
 import Link from "next/link";
-import { site } from "@/content/site";
+import { nav, site } from "@/content/site";
 import { Download } from "./icons";
-import { NavLinks } from "./nav-links";
+import { LocalTime } from "./local-time";
+import { SiteMenu } from "./site-menu";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-rule">
-      <div className="wrap flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-4 sm:py-5">
-        <Link href="/" className="group flex items-baseline gap-2.5 whitespace-nowrap">
-          <span className="font-medium tracking-tight text-ink">{site.name}</span>
-          <span className="hidden text-sm text-ink-3 lg:inline">{site.role}</span>
+    // Scrolls away with the page; the round menu button stays reachable everywhere.
+    <header className="absolute inset-x-0 top-0 z-30">
+      <div data-site-bar className="wide-wrap flex items-center justify-between gap-6 py-4 sm:py-6">
+        <Link href="/" className="whitespace-nowrap font-medium uppercase text-ink">
+          {site.name}
         </Link>
-
-        <a
-          href={site.links.resume}
-          className="inline-flex items-center gap-1.5 text-[0.9375rem] text-ink-2 transition-colors hover:text-ink sm:order-last"
-        >
-          <Download className="text-accent" />
-          Résumé
-        </a>
-
-        <nav aria-label="Primary" className="-mx-1 w-full px-1 sm:ml-auto sm:w-auto">
-          <NavLinks />
-        </nav>
+        <div className="flex items-center gap-6 pr-16 text-[0.9375rem] text-ink-2 sm:pr-20">
+          <LocalTime className="hidden sm:block" />
+          <a href={site.links.resume} className="inline-flex items-center gap-1.5 transition-colors hover:text-ink">
+            <Download className="text-accent" />
+            Résumé
+          </a>
+        </div>
       </div>
+      <SiteMenu />
+      {/* The menu needs JavaScript; without it, plain links stand in for the button. */}
+      <noscript>
+        <nav aria-label="Primary" className="wide-wrap flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem] text-ink-2">
+          {nav.map((item) => (
+            <a key={item.href} href={item.href} className="hover:text-ink">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </noscript>
     </header>
   );
 }

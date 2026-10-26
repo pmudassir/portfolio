@@ -27,7 +27,7 @@ export const otherBuilds = [
   {
     name: "This site",
     description:
-      "Static Next.js pages with content in typed TypeScript files and no CMS. Client-side JavaScript is limited to the copy-email button and the active navigation link.",
+      "A thermal receipt printed for each visitor. Static Next.js pages with content in typed TypeScript files and no CMS; the print effects are CSS and SVG filters, the barcode is a hand-written Code 128 encoder, and the paper feeds out of a printer as you scroll.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS"],
     href: "https://github.com/pmudassir/portfolio",
   },
